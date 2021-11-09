@@ -13,12 +13,16 @@ char answer;
 
 int main() {
 	
-		std::vector<std::vector<Board>> baseBoard(board.rows, std::vector<Board>(board.columns, Board{ '*' }));
+		
 
 		turn = 0;
 		position = 0;
-
-		DropPiece(position, baseBoard);
+	
+		while (true)
+		{
+			std::vector<std::vector<Board>> baseBoard(board.rows, std::vector<Board>(board.columns, Board{ '*' }));
+			DropPiece(position, baseBoard);
+		}
 
 	return 0;
 }
@@ -184,49 +188,40 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 
 	if (winChecker(animboard) == true)
 	{
-		replayLoop(animboard);
+		std::cout << "Looks like the game is over" << std::endl;
+		std::cout << "Do you want to play again ? : Y/N" << std::endl;
+		std::cin >> answer;
+
+		position = 0;
+
+
+		switch (toupper(answer))
+		{
+
+		case 'Y':
+			resetBoard(animboard);
+			break;
+
+		case 'N':
+
+			break;
+
+
+			break;
+
+		default:
+			break;
+		}
+
 
 	}
 	
 	
   }
-bool replayLoop(std::vector<std::vector<Board>> &baseBoard)
-{
-	
-
-
-	std::cout << "Looks like the game is over" << std::endl;
-	std::cout << "Do you want to play again ? : Y/N" << std::endl;
-	std::cin >> answer;
-
-	position = 0;
-
-
-	switch (toupper(answer))
-	{
-		//Player goes left
-	case 'Y':
-		resetBoard(baseBoard);
-		break;
-		//Player goes right
-	case 'N':
-
-		break;
-
-
-		break;
-
-	default:
-		break;
-	}
-	
-	
-	
-	return false;
-}
 
 void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 {
+	
 	system("cls");
 	for (int columns = 0; columns < baseBoard[0].size(); columns++)
 	{
@@ -269,7 +264,7 @@ void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 
 		for (int columns = 0; columns < baseBoard[0].size(); columns++)
 		{
-
+			baseBoard[rows][columns].tileSymbol = '*';
 
 			std::cout << "[" << baseBoard[rows][columns].tileSymbol << "]";
 		}
@@ -277,19 +272,11 @@ void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 	}
 
 
-	main();
+	
 }
-
-
-
-
 
 bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 {
-	
-
-	//handle side to side
-
 
 	//checking win condition for sideways
 	for (int rows = 0; rows < animboardChecker.size(); rows++)
@@ -314,51 +301,81 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 			}
 		}
 	}
-	//checking win condition for up
-	for (int columns = 0; columns < animboardChecker[0].size(); columns++)
-		{
-			for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
-			{
-				if (rows > 0 || rows < animboardChecker.size())
+		//checking win condition for up
+			for (int columns = 0; columns < animboardChecker[0].size(); columns++)
 				{
-
-					//if * skip the whole shaity
-					if (animboardChecker[rows][columns].tileSymbol == '*')
+					for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
 					{
-						continue;
-					}
-					if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns].tileSymbol &&
-						animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol &&
-						animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns].tileSymbol)
-					{
-						std::cout << "upppppppppppppppppppp" << std::endl;
-						return true;
-					}
-				}
-			}
-		}
-	for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
-	{
-		for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
-		{
-			if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
-			{
+						if (rows > 0 || rows < animboardChecker.size())
+						{
 
-				//if * skip the whole shaity
-				if (animboardChecker[rows][columns].tileSymbol == '*')
-				{
-					continue;
+							//if * skip the whole shaity
+							if (animboardChecker[rows][columns].tileSymbol == '*')
+							{
+								continue;
+							}
+							if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns].tileSymbol &&
+								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol &&
+								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns].tileSymbol)
+							{
+								std::cout << "upppppppppppppppppppp" << std::endl;
+								return true;
+							}
+						}
+					}
 				}
-				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns + 1].tileSymbol &&
-					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns + 2].tileSymbol &&
-					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns + 3].tileSymbol)
+				//checking win condition for diagonally to the right
+					for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
 				{
-					std::cout << "upppppppppppppppppppp" << std::endl;
-					return true;
+					for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
+					{
+					if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
+						{	
+
+							//if * skip the whole shaity
+							if (animboardChecker[rows][columns].tileSymbol == '*')
+							{
+								continue;
+							}
+							if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns + 1].tileSymbol &&
+								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns + 2].tileSymbol &&
+								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns + 3].tileSymbol)
+					
+							 {
+								std::cout << "upppppppppppppppppppp" << std::endl;
+								return true;
+							}
+						}
+					}
 				}
-			}
-		}
-	}
+						//checking win condtiion for diagonally down to the right 
+							for (int columns = 3; columns < animboardChecker[0].size() - 3; columns++)
+
+					{
+						for (int rows = 3; rows < animboardChecker.size(); rows++)
+						{
+				
+							if (rows > 3 || rows < animboardChecker.size() || columns > 3 || columns < animboardChecker[0].size())
+							{
+
+								//if * skip the whole shaity
+								if (animboardChecker[rows][columns].tileSymbol == '*')
+								{
+									continue;
+								}
+								if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 1][columns + 1].tileSymbol &&
+									animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 2][columns + 2].tileSymbol &&
+									animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 3][columns + 3].tileSymbol)
+
+								{
+									std::cout << "sideways" << std::endl;
+									return true;
+								}
+							}
+						}
+					}
+
+
 	return false;
 
 
