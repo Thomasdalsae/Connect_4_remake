@@ -13,19 +13,104 @@ char answer;
 
 int main() {
 	
-		
+	menu();
 
-		turn = 0;
-		position = 0;
 	
-		while (true)
-		{
-			std::vector<std::vector<Board>> baseBoard(board.rows, std::vector<Board>(board.columns, Board{ '*' }));
-			DropPiece(position, baseBoard);
-		}
 
 	return 0;
 }
+
+
+
+void menu()
+{
+
+	while (true)
+	{
+		renderMenu(p);
+
+		char b = _getch();
+
+		switch (toupper(b))
+		{
+			//Player goes left
+		case 'W':
+			p--;
+			if (p < 0 )
+			{
+				p = 2;
+			}
+			break;
+			//Player goes right
+		case 'S':
+			p++;
+			if (p >= 3)
+			{
+				p = 0;
+			}
+			break;
+
+		case ' ':
+			if (p == 0)
+			{
+				logIn();
+			}
+			if (p == 1) {
+				createAccount();
+				return;
+				
+				
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+void renderMenu(int p)
+{
+	system("cls");
+	for (int rows = 0; rows < 3; rows++)
+	{
+		
+		if (p == rows) {
+			std::cout << "-> :";
+			std::cout << entryMenu[rows];
+		}
+		else
+		{
+			std::cout << "   :";
+			std::cout << entryMenu[rows];
+		}
+		std::cout << std::endl;
+	}
+
+	
+
+}
+void createAccount()
+{
+	std::cout << " reeeeeeeeeee";
+}
+void logIn()
+{
+}
+void setting()
+{
+}
+void startGame()
+{
+	turn = 0;
+	position = 0;
+
+	while (true)
+	{
+		std::vector<std::vector<Board>> baseBoard(board.rows, std::vector<Board>(board.columns, Board{ '*' }));
+		DropPiece(position, baseBoard);
+	}
+}
+
 
 
 
