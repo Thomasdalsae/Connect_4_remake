@@ -4,6 +4,7 @@
 #include <string>
 #include <Windows.h>
 #include <conio.h>
+#include <fstream>
 
 
 class Board
@@ -22,6 +23,8 @@ private:
 
 };
 int p;
+std::string userName;
+std::string passWord;
 void GameBoard(std::vector<std::vector<Board>>board);
 void DropPiece(int &position, std::vector<std::vector<Board>> &board);
 void animDrop(int, std::vector<std::vector<Board>>&);
@@ -31,6 +34,8 @@ void startGame();
 void menu();
 void renderMenu(int p);
 void createAccount();
-void logIn();
+bool logIn();
+std::vector<std::string>loginnUserName;
+std::vector<std::string>loginPassword;
 void setting();
 std::vector<std::string> entryMenu{ "Log in", "Create account"," Exit" };
