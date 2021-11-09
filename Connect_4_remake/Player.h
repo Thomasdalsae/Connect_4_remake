@@ -6,24 +6,24 @@
 #include <conio.h>
 
 
-class GamePiece
+class Board
 {
 public:
 	
-	int x = 7;
-	int	y = 6;
+	int columns = 7;
+	int	rows = 6;
 	char tileSymbol = { '*' };
-	int color;
+	
 	
 public:
-	char _playerSymbol = 'x';
-
+	char playersymbol = 'X';
 
 private:
 
 };
-
-void GameBoard(std::vector<std::vector<GamePiece>> Board);
-void DropPiece(int &position, std::vector<std::vector<GamePiece>> Board);
-void animDrop(int, std::vector<std::vector<GamePiece>>&);
-bool winChecker(std::vector<std::vector<GamePiece>>& animboardChecker);
+void GameBoard(std::vector<std::vector<Board>>board);
+void DropPiece(int &position, std::vector<std::vector<Board>> &board);
+void animDrop(int, std::vector<std::vector<Board>>&);
+bool winChecker(std::vector<std::vector<Board>>animboardChecker);
+bool replayLoop(std::vector<std::vector<Board>> &baseBoard);
+void resetBoard(std::vector<std::vector<Board>> &baseBoard);
