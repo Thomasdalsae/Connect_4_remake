@@ -176,18 +176,18 @@ bool logIn()
 
 		while (std::getline(infile, line))
 		{
-			
+			//check # on making account thing , it goes out of bound.
 			std::string line1 = line.substr(3);
 			std::cout << line << std::endl;
 			
 			
-
+			if (tempname == line1)
+			{
+				std::cout << "reee";
+				break;
+			}
 			
-				if (tempname == line1)
-				{
-					std::cout << "reee";
-
-				}
+				
 			
 		}
 
