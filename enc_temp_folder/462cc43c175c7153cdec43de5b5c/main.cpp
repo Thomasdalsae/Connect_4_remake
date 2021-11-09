@@ -179,16 +179,12 @@ bool logIn()
 			
 			std::string line1 = line.substr(3);
 			std::cout << line << std::endl;
-			
-			
+			if (tempname == line1)
+			{
+				std::cout << "reee";
 
-			
-				if (tempname == line1)
-				{
-					std::cout << "reee";
+			}
 
-				}
-			
 		}
 
 		
