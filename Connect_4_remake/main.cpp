@@ -524,18 +524,22 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 
 void loadPlayer()
 {
+
 	std::vector<Player> PlayerData{};
 
 	std::string p;
-	std::ifstream i_file("playerDataBase.dat");
-	std::ofstream o_file("playerDataBase.dat", std::fstream::app);
+	std::ifstream i_file;
+	i_file.open("playerDataBase.dat");
+	
 
-	while (std::getline(i_file,p))
+	while (std::getline(i_file, p))
 	{
+		
 		Player temp{};
 		temp.name = p;
 
 		std::getline(i_file, p);
+		std::cout << p << std::endl;
 		temp.wins = std::stoi(p);
 
 		std::getline(i_file, p);
@@ -546,12 +550,9 @@ void loadPlayer()
 		std::cout << temp.losses << std::endl;
 		PlayerData.push_back(temp);
 	}
-	
-	
-	
-
-	
+	 
 	manageData(PlayerData);
+	std::ofstream o_file("playerDataBase.dat");
 	for (size_t i = 0; i < PlayerData.size(); i++)
 	{
 		
@@ -559,7 +560,11 @@ void loadPlayer()
 		// Write to the file
 		o_file << PlayerData[i].name << std::endl;
 		o_file << PlayerData[i].wins << std::endl;
-		o_file << PlayerData[i].losses << std::endl;
+		o_file << PlayerData[i].losses;
+		if (i != PlayerData.size()-1)
+		{
+			o_file << std::endl;
+		}
 	}
 	i_file.close();
 	o_file.close();
@@ -576,6 +581,16 @@ void manageData(std::vector<Player>& PlayerData)
 		{
 			PlayerData[i].wins += playerOne.wins;
 			PlayerData[i].losses += playerOne.losses;
+			break;
+		}
+		if (i == PlayerData.size()-1)
+		{
+			Player temp{};
+			temp.name = playerOne.name;
+			temp.wins = playerOne.wins;
+			temp.losses = playerOne.losses;
+			PlayerData.push_back(temp);
+			break;
 		}
 	}
 	if (PlayerData.size() == 0)
@@ -585,6 +600,7 @@ void manageData(std::vector<Player>& PlayerData)
 		PlayerData[0].wins = playerOne.wins;
 		PlayerData[0].losses = playerOne.losses;
 	}
+	
 }
 void Exit(std::vector<Player>& PlayerData) {
 
