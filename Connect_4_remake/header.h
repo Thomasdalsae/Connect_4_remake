@@ -25,7 +25,8 @@ private:
 };
 int p;
 int solving();
-
+void bestPosition();
+bool getValidLocation();
 void GameBoard(std::vector<std::vector<Board>>board);
 void DropPiece(int &position, std::vector<std::vector<Board>> &board);
 void animDrop(int, std::vector<std::vector<Board>>&);

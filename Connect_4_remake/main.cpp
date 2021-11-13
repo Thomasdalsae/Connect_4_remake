@@ -216,7 +216,10 @@ void playerBoard()
 void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 {
 	system("cls");
+	std::cout << score << std::endl;
+	
 	playerBoard();
+	
 	//change to platyer choosing symbol
 	if (turn % 2 == 0) {
 		board.playersymbol = 'X';
@@ -540,52 +543,84 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 
 
 }
+
+
+
 bool scorePosition(std::vector<std::vector<Board>>animboardChecker) {
 	score = 0;
 	int s = 0;
-	int i = 0;
+	int i = 1;
 	for (int rows = 0; rows < animboardChecker.size(); rows++)
 	{
+		
 		for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
 		{
+			
 			if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
 			{
-				
-				
+				if (animboardChecker[rows][columns].tileSymbol == '*')
+				{
 
+					continue;
+				}
 				
-					//if * skip the whole shaity
-					if (animboardChecker[rows][columns].tileSymbol == '*')
-					{
-						continue;
-					}
+				while (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + i].tileSymbol) {
 					
-					if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + i].tileSymbol) {
-						
-						
-						s++;
-
-					}
-					else
-					{
-						s--;
-					}
-					
-
-					if (s == 3) {
-						score = 100;
-					}
-					if (s == 2)
+					s++;
+					i++;
+					if (s > 0)
 					{
 						score = 10;
 					}
+					if (s  > 1)
+					{
+						score = 100;
+
+					}
+					if (animboardChecker[rows][columns].tileSymbol != animboardChecker[rows][columns + i].tileSymbol)
+					{
+						break;
+						i = 0;
+						s = 0;
+					}
+				
+				}
+				
+				
+				
+				
+				
+
+				
+				
+					
 
 			}
 		}
-	}std::cout << score;
+		
+
+	}
+	std::cout << i << s << std::endl; 
+	std::cout << score << std::endl;
 	system("pause");
 	return score;
 }
+void bestPosition(std::vector<std::vector<Board>>animboardChecker) {
+
+}
+//bool getValidLocation(std::vector<std::vector<Board>>animboardChecker) {
+//	int validLocation{};
+//	for (int columns = 0; columns < animboardChecker[0].size(); columns++) {
+//		if (validLocation(animboardChecker, columns));
+//		{
+//
+//		}
+//	}
+//
+//}
+
+
+
 void loadPlayer()
 {
 
