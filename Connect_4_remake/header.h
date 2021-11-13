@@ -24,18 +24,19 @@ private:
 
 };
 int p;
-
+int solving();
 
 void GameBoard(std::vector<std::vector<Board>>board);
 void DropPiece(int &position, std::vector<std::vector<Board>> &board);
 void animDrop(int, std::vector<std::vector<Board>>&);
 bool winChecker(std::vector<std::vector<Board>>animboardChecker);
+bool scorePosition(std::vector<std::vector<Board>>animboardChecker);
 void resetBoard(std::vector<std::vector<Board>> &baseBoard);
 void playerBoard();
 //login
 int nametries{};
 int passtries{};
-
+int score{};
 
 
 Player playerOne{};

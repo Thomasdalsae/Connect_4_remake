@@ -1,7 +1,7 @@
 
 #include "player.h"
 #include "header.h"
-
+#include "position.hpp"
 
 
 int position{};
@@ -25,8 +25,6 @@ int main() {
 	return 0;
 
 }
-
-
 
 void menu()
 {
@@ -80,16 +78,25 @@ void menu()
 		}
 	}
 }
-
- 
-
 void singlePlayer() {
 
 
 
+	std::cout << "Enter playerone name: ";
+	std::cin >> playerOne.name;
+
+
+
+	playerTwo.name = "AI";
+
+
+	std::cout << "Welcome!" << std::endl << playerOne.name << " and " << playerTwo.name << std::endl;
+
+	Sleep(1500);
+
+	startGame();
 
 }
-
 void multiPlayer() {
 
 	
@@ -109,7 +116,6 @@ void multiPlayer() {
 	
 	startGame();
 }
-
 void renderMenu(int p)
 {
 	system("cls");
@@ -130,10 +136,7 @@ void renderMenu(int p)
 
 	
 
-}
-
-
-	
+}	
 void setting()
 {
 }
@@ -146,15 +149,24 @@ void startGame()
 	{
 		std::vector<std::vector<Board>> baseBoard(board.rows, std::vector<Board>(board.columns, Board{ '*' }));
 		DropPiece(position, baseBoard);
+
 	}
 }
-
 void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 {
 	system("cls");
 	while (true)
 	{
 		GameBoard(TempBoard);
+
+		if (playerTwo.name == "AI" && board.playersymbol == 'O')
+		{
+			scorePosition(TempBoard);
+			position = rand() % TempBoard[0].size();
+			animDrop(k, TempBoard);
+			turn++;
+			
+		}
 
 		char b = _getch();
 
@@ -201,7 +213,6 @@ void playerBoard()
 
 	return;
 }
-
 void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 {
 	system("cls");
@@ -271,18 +282,26 @@ void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 	
 
 }
-
 void animDrop(int, std::vector<std::vector<Board>>&animboard)
 {
 	
 	
 	for (int row = animboard.size() - 1; row >= 0; row--)
 	{
+		
 		if (animboard[row][position].tileSymbol == 'X' || animboard[row][position].tileSymbol == 'O')
 		{
+			if (animboard[row][position].tileSymbol == animboard[animboard.size()-1][position].tileSymbol)
+			{
+				std::cout << "This slot is already taken... Try somewhere else!";
+				system("pause");
+				turn--;
+				break;
+				
+			}
 			row++;
 			animboard[row][position].tileSymbol = board.playersymbol;
-
+			
 			break;
 		}
 		if (animboard[row][position].tileSymbol == '*')
@@ -308,6 +327,7 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 
 			}
 			animboard[row][position].tileSymbol = '*';
+		
 		}
 		
 	}
@@ -329,8 +349,9 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 		std::cout << "Do you want to play again ? : Y/N" << std::endl;
 		std::cin >> answer;
 
+		
+		turn = 0;
 		position = 0;
-
 
 		switch (toupper(answer))
 		{
@@ -356,7 +377,6 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 	
 	
   }
-
 void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 {
 	
@@ -414,7 +434,6 @@ void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 
 	
 }
-
 bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 {
 
@@ -521,7 +540,52 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 
 
 }
+bool scorePosition(std::vector<std::vector<Board>>animboardChecker) {
+	score = 0;
+	int s = 0;
+	int i = 0;
+	for (int rows = 0; rows < animboardChecker.size(); rows++)
+	{
+		for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
+		{
+			if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
+			{
+				
+				
 
+				
+					//if * skip the whole shaity
+					if (animboardChecker[rows][columns].tileSymbol == '*')
+					{
+						continue;
+					}
+					
+					if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + i].tileSymbol) {
+						
+						
+						s++;
+
+					}
+					else
+					{
+						s--;
+					}
+					
+
+					if (s == 3) {
+						score = 100;
+					}
+					if (s == 2)
+					{
+						score = 10;
+					}
+
+			}
+		}
+	}std::cout << score;
+	system("pause");
+	return score;
+}
 void loadPlayer()
 {
 
