@@ -549,41 +549,57 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 	std::cout << position;
 }
 int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) {
-		for (int columns = 0; columns < TempBoard[0].size(); columns++) {
-
-			for (int row = TempBoard.size() - 1; row >= 0; row--)
+	for (int columns = 0; columns < TempBoard[0].size(); columns++) {
+			int row{};
+			bool fullCol = false;
+			for (row = TempBoard.size() - 1; row >= 0; row--)
 			{
+
 				if (TempBoard[row][columns].tileSymbol == 'X' || TempBoard[row][columns].tileSymbol == 'O')
 				{
+					if (row == TempBoard.size() - 1)
+					{
+						fullCol = true;
+						
+						break;
+					}
+					row++;
 					break;
 				}
-				else if (winChecker(TempBoard)) 
-				{
-							position = columns;
-							return position;
-				}
-				if (TempBoard[row][columns].tileSymbol == TempBoard[TempBoard.size() - 1][columns].tileSymbol)
-				{
-							std::cout << "This slot is already taken... Try somewhere else!";
-							system("pause");
-							turn--;
-							break;
-
-				}
-					row++;
-						TempBoard[row][columns].tileSymbol =  board.playersymbol;
-
-					
-
-					
 				
-			
 			}
+			if (fullCol)
+			{
+				continue;
+			}
+			else if (row < 0)
+			{
+				row = 0;
+			}
+			std::cout << row <<"  " << columns << std::endl;
+			system("pause");
 
+			TempBoard[row][columns].tileSymbol = 'O';
+
+			if (winChecker(TempBoard))
+			{
+				position = columns;
+				return position;
+			}
+		
+			TempBoard[row][columns].tileSymbol = 'X';
+
+			if (winChecker(TempBoard))
+			{
+				position = columns;
+				return position;
+			}
+			TempBoard[row][columns].tileSymbol = '*';
 		}
 				
-				position = rand() % TempBoard[0].size();
-				return position;
+
+	    position = rand() % TempBoard[0].size();
+		return position;
 				
 }
 
