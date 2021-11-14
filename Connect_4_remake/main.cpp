@@ -562,7 +562,7 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 	for (int columns = 0; columns < animboardChecker[0].size() - 2; columns++)
 
 	{
-		for (int rows = 3; rows < animboardChecker.size(); rows++)
+		for (int rows = 2; rows < animboardChecker.size(); rows++)
 		{
 
 			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
@@ -600,7 +600,7 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 			bestPosition(position,TempBoard);
 			std::cout << position << std::endl;
 			
-			system("pause");
+		
 			animDrop(position, TempBoard);
 			turn++;
 			
@@ -645,12 +645,14 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 	}
 	std::cout << position;
 }
-int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) {
-	bool threerow{};
-	bool blockThreeRow{};
-	for (int columns = 0; columns < TempBoard[0].size(); columns++) {
-			int row{};
-			bool fullCol = false;
+int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) 
+{
+		bool threerow = false;
+		bool blockThreeRow = false;
+		for (int columns = 0; columns < TempBoard[0].size(); columns++) 
+		{
+				int row{};
+				bool fullCol = false;
 
 			for (row = TempBoard.size() - 1; row >= 0; row--)
 			{
@@ -677,7 +679,7 @@ int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) {
 				row = 0;
 			}
 			std::cout << row <<"  " << columns << std::endl;
-			system("pause");
+			
 
 			TempBoard[row][columns].tileSymbol = 'O';
 
@@ -708,19 +710,31 @@ int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) {
 
 				position = columns;
 				threerow = true;
+				
 			
 			}
 			TempBoard[row][columns].tileSymbol = '*';
+			std::cout << position;
+			system("pause");
 		}
-	if (threerow && blockThreeRow) {
-		return position;
-	}
-				
-	std::random_device rd{};
-	std::mt19937_64 g(rd());
-	std::uniform_int_distribution<int> rng(0, TempBoard[0].size() - 1);
-	position = rng(g);
-		return position;
+		if (blockThreeRow)
+		{
+			return position;
+			
+		}
+		if (threerow)
+		{
+			return position;
+		}
+		else
+		{
+			std::random_device rd{};
+			std::mt19937_64 g(rd());
+			std::uniform_int_distribution<int> rng(0, TempBoard[0].size() - 1);
+			position = rng(g);
+			return position;
+		}
+	
 				
 }
 
