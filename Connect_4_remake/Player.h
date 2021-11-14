@@ -17,3 +17,6 @@ private:
 
 };
 
+
+Player playerOne{};
+Player playerTwo{};

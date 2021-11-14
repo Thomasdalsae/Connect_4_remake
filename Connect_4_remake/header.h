@@ -24,46 +24,40 @@ public:
 private:
 
 };
-int p;
 
-int bestPosition(int &position, std::vector<std::vector<Board>>animboardChecker);
-
-void GameBoard(std::vector<std::vector<Board>>board);
-void DropPiece(int &position, std::vector<std::vector<Board>> &board);
-void animDrop(int, std::vector<std::vector<Board>>&);
-bool winChecker(std::vector<std::vector<Board>>animboardChecker);
-bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker);
-bool scorePosition(std::vector<std::vector<Board>>animboardChecker);
-void resetBoard(std::vector<std::vector<Board>> &baseBoard);
-void playerBoard();
-//login
-int nametries{};
-int passtries{};
-int score{};
-
-
-Player playerOne{};
-Player playerTwo{};
-
-//-------------------
-//std::string userName;
-//std::string playerOne;
-//int playerOneWins;
-//
-//std::string playerTwo;
-//int playerTwoWins;
-//int playerTwoLosses;
-//------------------
-void singlePlayer();
-void loadPlayer();
-void multiPlayer();
+//MENUS
 void startGame();
 void menu();
 void renderMenu(int p);
+void setting();
+//MODES
+void singlePlayer();
+void multiPlayer();
+int p;
+//BOARDS
+int score{};
+void playerBoard();
+void GameBoard(std::vector<std::vector<Board>>board);
+void DropPiece(int &position, std::vector<std::vector<Board>> &board);
+void animDrop(int, std::vector<std::vector<Board>>&);
+void resetBoard(std::vector<std::vector<Board>>& baseBoard);
+//WINCHECKERS
+bool winChecker(std::vector<std::vector<Board>>animboardChecker);
+//FOR AI
+bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker);
+//AI
+int bestPosition(int& position, std::vector<std::vector<Board>>animboardChecker);
+
+
+//login
+int nametries{};
+int passtries{};
+
+//DATA SORTING
+void loadPlayer();
 void Exit(std::vector<Player>& PlayerData);
 void manageData(std::vector<Player>& PlayerData);
-
+//VECTORS
 std::vector<std::string>loginnUserName;
 std::vector<std::string>loginPassword;
-void setting();
 std::vector<std::string> entryMenu{ "Single player","Multiplayer","Create account"," Exit" };

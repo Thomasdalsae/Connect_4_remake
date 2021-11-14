@@ -78,6 +78,7 @@ void menu()
 		}
 	}
 }
+
 void singlePlayer() {
 
 
@@ -97,6 +98,7 @@ void singlePlayer() {
 	startGame();
 
 }
+
 void multiPlayer() {
 
 	
@@ -116,6 +118,7 @@ void multiPlayer() {
 	
 	startGame();
 }
+
 void renderMenu(int p)
 {
 	system("cls");
@@ -137,9 +140,11 @@ void renderMenu(int p)
 	
 
 }	
+
 void setting()
 {
 }
+
 void startGame()
 {
 	turn = 0;
@@ -152,12 +157,14 @@ void startGame()
 
 	}
 }
+
 void playerBoard()
 {
-	std::cout << playerOne.name << playerOne.wins <<" VS " << playerTwo.wins << playerOne.name << std::endl;
+	std::cout << playerOne.name << " " << playerOne.wins <<" VS " << playerTwo.wins <<" " << playerTwo.name << std::endl;
 
 	return;
 }
+
 void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 {
 	system("cls");
@@ -230,6 +237,7 @@ void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 	
 
 }
+
 void animDrop(int, std::vector<std::vector<Board>>&animboard)
 {
 	
@@ -285,27 +293,31 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 	{
 		if (board.playersymbol == 'X') {
 
-			std::cout << "Congratulations" << playerOne.name << std::endl;
+			std::cout << "Congratulations " << playerOne.name << std::endl;
 			playerOne.wins++;
+			playerTwo.losses++;
 		}
 		else
 		{
-			std::cout << "Congratulations" << playerTwo.name << std::endl;
+			std::cout << "Congratulations " << playerTwo.name << std::endl;
 			playerTwo.wins++;
+			playerOne.losses++;
 		}
 		std::cout << "Looks like the game is over" << std::endl;
 		std::cout << "Do you want to play again ? : Y/N" << std::endl;
 		std::cin >> answer;
 
 		
-		turn = 0;
-		position = 0;
+		
 
 		switch (toupper(answer))
 		{
 
 		case 'Y':
+			turn = 0;
+			position = 0;
 			resetBoard(animboard);
+			
 			break;
 
 		case 'N':
@@ -325,6 +337,7 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 	
 	
   }
+
 void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 {
 	
@@ -382,6 +395,7 @@ void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 
 	
 }
+
 bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 {
 
@@ -401,7 +415,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 2].tileSymbol &&
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 3].tileSymbol)
 				{
-					std::cout << "side to side" << std::endl;
+					std::cout << "sideways four in a row" << std::endl;
 					return true;
 					
 				}
@@ -425,7 +439,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol &&
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns].tileSymbol)
 				{
-					std::cout << "upppppppppppppppppppp" << std::endl;
+					std::cout << "upwards four in a row" << std::endl;
 					return true;
 				}
 			}
@@ -450,7 +464,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns + 3].tileSymbol)
 					
 					{
-					std::cout << " diagonally to the right" << std::endl;
+					std::cout << "diagonally up to the right four in a row" << std::endl;
 					return true;
 				}
 			}
@@ -476,7 +490,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 3][columns + 3].tileSymbol)
 
 				{
-					std::cout << "diagonally down to the right " << std::endl;
+					std::cout << "diagonally down to the right four in a row " << std::endl;
 					return true;
 				}
 			}
@@ -488,6 +502,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 
 
 }
+
 bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 {
 	//checking win condition for sideways
@@ -505,35 +520,36 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 1].tileSymbol &&
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 2].tileSymbol)
 				{
-					std::cout << "side to side three in a row" << std::endl;
+					std::cout << "Sideways 3 in a row " << std::endl;
 					return true;
 
 				}
 			}
 		}
 	}
-	//checking win condition for up
-	for (int columns = 0; columns < animboardChecker[0].size(); columns++)
-	{
-		for (int rows = 0; rows < animboardChecker.size() - 2; rows++)
+		//checking win condition for up
+		for (int columns = 0; columns < animboardChecker[0].size(); columns++)
 		{
-			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+			for (int rows = 0; rows < animboardChecker.size() - 2; rows++)
 			{
+				if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+				{
 
-				//if * skip the whole shaity
-				if (animboardChecker[rows][columns].tileSymbol == '*')
-				{
-					continue;
-				}
-				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns].tileSymbol &&
-					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol)
-				{
-					std::cout << "uppppp three in a row" << std::endl;
-					return true;
+		
+				
+					if (animboardChecker[rows][columns].tileSymbol == '*')
+					{
+						continue;
+					}
+					if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns].tileSymbol &&
+						animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol)
+					{
+						std::cout << "uppppp three in a row" << std::endl;
+						return true;
+					}
 				}
 			}
 		}
-	}
 
 	//checking win condition for diagonally to the right
 	for (int columns = 0; columns < animboardChecker[0].size() - 2; columns++)
@@ -552,7 +568,7 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns + 2].tileSymbol)
 
 				{
-					std::cout << " diagonally to the right three in a row" << std::endl;
+					std::cout << " diagonally up to the right three in a row" << std::endl;
 					return true;
 				}
 			}
@@ -577,7 +593,7 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 2][columns + 2].tileSymbol)
 
 				{
-					std::cout << "diagonally down to the right " << std::endl;
+					std::cout << "diagonally down to the right four in a row " << std::endl;
 					return true;
 				}
 			}
@@ -600,7 +616,7 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 			bestPosition(position,TempBoard);
 			std::cout << position << std::endl;
 			
-		
+			
 			animDrop(position, TempBoard);
 			turn++;
 			
@@ -645,6 +661,7 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 	}
 	std::cout << position;
 }
+
 int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) 
 {
 		bool threerow = false;
@@ -716,32 +733,30 @@ int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard)
 			TempBoard[row][columns].tileSymbol = '*';
 			std::cout << position;
 			system("pause");
-		}
-		if (blockThreeRow)
-		{
-			return position;
 			
 		}
-		if (threerow)
-		{
-			return position;
-		}
-		else
-		{
-			std::random_device rd{};
-			std::mt19937_64 g(rd());
-			std::uniform_int_distribution<int> rng(0, TempBoard[0].size() - 1);
-			position = rng(g);
-			return position;
-		}
-	
+	if (blockThreeRow && !threerow)
+	{
+		return position;
+
+	}
+	if (threerow && !blockThreeRow)
+	{
+		return position;
+	}
+	if (!blockThreeRow && !threerow)
+	{
+		std::cout << "RAdnom time !!!";
+		system("pause");
+		std::random_device rd{};
+		std::mt19937_64 g(rd());
+		std::uniform_int_distribution<int> rng(0, TempBoard[0].size() - 1);
+		position = rng(g);
+		return position;
+	}
+		
 				
 }
-
-
-
-
-
 
 void loadPlayer()
 {
@@ -792,6 +807,7 @@ void loadPlayer()
 	system("pause");
 	Exit(PlayerData);
 }
+
 void manageData(std::vector<Player>& PlayerData)
 {
 	for (size_t i = 0; i < PlayerData.size(); i++)
@@ -813,6 +829,7 @@ void manageData(std::vector<Player>& PlayerData)
 			PlayerData.push_back(temp);
 			break;
 		}
+
 	}
 	if (PlayerData.size() == 0)
 	{
@@ -821,8 +838,37 @@ void manageData(std::vector<Player>& PlayerData)
 		PlayerData[0].wins = playerOne.wins;
 		PlayerData[0].losses = playerOne.losses;
 	}
+	for (size_t i = 0; i < PlayerData.size(); i++)
+	{
+
+
+		if (PlayerData[i].name == playerTwo.name)
+		{
+			PlayerData[i].wins += playerTwo.wins;
+			PlayerData[i].losses += playerTwo.losses;
+			break;
+		}
+		if (i == PlayerData.size() - 1)
+		{
+			Player temp{};
+			temp.name = playerTwo.name;
+			temp.wins = playerTwo.wins;
+			temp.losses = playerTwo.losses;
+			PlayerData.push_back(temp);
+			break;
+		}
+
+	}
+	if (PlayerData.size() == 0)
+	{
+		PlayerData.push_back(Player{});
+		PlayerData[0].name = playerTwo.name;
+		PlayerData[0].wins = playerTwo.wins;
+		PlayerData[0].losses = playerTwo.losses;
+	}
 	
 }
+
 void Exit(std::vector<Player>& PlayerData) {
 
 
@@ -832,5 +878,3 @@ void Exit(std::vector<Player>& PlayerData) {
 
 	
 }
-
-
