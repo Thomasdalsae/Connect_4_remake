@@ -390,7 +390,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 	{
 		for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
 		{
-			if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker[0].size())
+			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
 			{
 			    //if * skip the whole shaity
 				if (animboardChecker[rows][columns].tileSymbol == '*')
@@ -408,85 +408,182 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 			}
 		}
 	}
-		//checking win condition for up
-			for (int columns = 0; columns < animboardChecker[0].size(); columns++)
-				{
-					for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
-					{
-						if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
-						{
+//checking win condition for up
+	for (int columns = 0; columns < animboardChecker[0].size(); columns++)
+	{
+		for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
+		{
+			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+			{
 
-							//if * skip the whole shaity
-							if (animboardChecker[rows][columns].tileSymbol == '*')
-							{
-								continue;
-							}
-							if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns].tileSymbol &&
-								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol &&
-								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns].tileSymbol)
-							{
-								std::cout << "upppppppppppppppppppp" << std::endl;
-								return true;
-							}
-						}
-					}
+				//if * skip the whole shaity
+				if (animboardChecker[rows][columns].tileSymbol == '*')
+				{
+					continue;
 				}
+				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns].tileSymbol)
+				{
+					std::cout << "upppppppppppppppppppp" << std::endl;
+					return true;
+				}
+			}
+		}
+	}
 				
 			//checking win condition for diagonally to the right
-					for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
+	for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
+	{
+		for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
+		{
+			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+			{	
+
+				//if * skip the whole shaity
+				if (animboardChecker[rows][columns].tileSymbol == '*')
 				{
-					for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
-					{
-					if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
-						{	
-
-							//if * skip the whole shaity
-							if (animboardChecker[rows][columns].tileSymbol == '*')
-							{
-								continue;
-							}
-							if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns + 1].tileSymbol &&
-								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns + 2].tileSymbol &&
-								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns + 3].tileSymbol)
-					
-							 {
-								std::cout << " diagonally to the right" << std::endl;
-								return true;
-							}
-						}
-					}
+					continue;
 				}
-						//checking win condtiion for diagonally down to the right 
-							for (int columns = 3; columns < animboardChecker[0].size(); columns++)
-
+				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns + 1].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns + 2].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns + 3].tileSymbol)
+					
 					{
-							for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
-							{
+					std::cout << " diagonally to the right" << std::endl;
+					return true;
+				}
+			}
+		}
+     }
+						//checking win condtiion for diagonally down to the right 
+	for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
+
+	{
+		for (int rows = 3; rows < animboardChecker.size(); rows++)
+		{
 				
-								if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
-								{
+			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+			{
 
-								//if * skip the whole shaity
-								if (animboardChecker[rows][columns].tileSymbol == '*')
-								{
-									continue;
-								}
-								if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns - 1].tileSymbol &&
-									animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns - 2].tileSymbol &&
-									animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns - 3].tileSymbol)
+				//if * skip the whole shaity
+				if (animboardChecker[rows][columns].tileSymbol == '*')
+				{
+					continue;
+				}
+				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 1][columns + 1].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 2][columns + 2].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 3][columns + 3].tileSymbol)
 
-								{
-									std::cout << "diagonally down to the right " << std::endl;
-									return true;
-								}
-							}
-						}
-					}
+				{
+					std::cout << "diagonally down to the right " << std::endl;
+					return true;
+				}
+			}
+		}
+	}
 
 
 	return false;
 
 
+}
+bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
+{
+	//checking win condition for sideways
+	for (int rows = 0; rows < animboardChecker.size(); rows++)
+	{
+		for (int columns = 0; columns < animboardChecker[0].size() - 2; columns++)
+		{
+			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+			{
+				//if * skip the whole shaity
+				if (animboardChecker[rows][columns].tileSymbol == '*')
+				{
+					continue;
+				}
+				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 1].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 2].tileSymbol)
+				{
+					std::cout << "side to side three in a row" << std::endl;
+					return true;
+
+				}
+			}
+		}
+	}
+	//checking win condition for up
+	for (int columns = 0; columns < animboardChecker[0].size(); columns++)
+	{
+		for (int rows = 0; rows < animboardChecker.size() - 2; rows++)
+		{
+			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+			{
+
+				//if * skip the whole shaity
+				if (animboardChecker[rows][columns].tileSymbol == '*')
+				{
+					continue;
+				}
+				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol)
+				{
+					std::cout << "uppppp three in a row" << std::endl;
+					return true;
+				}
+			}
+		}
+	}
+
+	//checking win condition for diagonally to the right
+	for (int columns = 0; columns < animboardChecker[0].size() - 2; columns++)
+	{
+		for (int rows = 0; rows < animboardChecker.size() - 2; rows++)
+		{
+			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+			{
+
+				//if * skip the whole shaity
+				if (animboardChecker[rows][columns].tileSymbol == '*')
+				{
+					continue;
+				}
+				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns + 1].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns + 2].tileSymbol)
+
+				{
+					std::cout << " diagonally to the right three in a row" << std::endl;
+					return true;
+				}
+			}
+		}
+	}
+	//checking win condtiion for diagonally down to the right 
+	for (int columns = 0; columns < animboardChecker[0].size() - 2; columns++)
+
+	{
+		for (int rows = 3; rows < animboardChecker.size(); rows++)
+		{
+
+			if ((rows >= 0 || rows < animboardChecker.size()) && (columns > 0 || columns < animboardChecker[0].size()))
+			{
+
+				//if * skip the whole shaity
+				if (animboardChecker[rows][columns].tileSymbol == '*')
+				{
+					continue;
+				}
+				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 1][columns + 1].tileSymbol &&
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 2][columns + 2].tileSymbol)
+
+				{
+					std::cout << "diagonally down to the right " << std::endl;
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
@@ -549,9 +646,12 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 	std::cout << position;
 }
 int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) {
+	bool threerow{};
+	bool blockThreeRow{};
 	for (int columns = 0; columns < TempBoard[0].size(); columns++) {
 			int row{};
 			bool fullCol = false;
+
 			for (row = TempBoard.size() - 1; row >= 0; row--)
 			{
 
@@ -594,11 +694,32 @@ int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) {
 				position = columns;
 				return position;
 			}
+		
+			if (winCheckerExtra(TempBoard))
+			{
+				position = columns;
+				blockThreeRow = true;
+				
+			}
+			TempBoard[row][columns].tileSymbol = 'O';
+
+			if (!blockThreeRow && winCheckerExtra(TempBoard))
+			{
+
+				position = columns;
+				threerow = true;
+			
+			}
 			TempBoard[row][columns].tileSymbol = '*';
 		}
+	if (threerow && blockThreeRow) {
+		return position;
+	}
 				
-
-	    position = rand() % TempBoard[0].size();
+	std::random_device rd{};
+	std::mt19937_64 g(rd());
+	std::uniform_int_distribution<int> rng(0, TempBoard[0].size() - 1);
+	position = rng(g);
 		return position;
 				
 }

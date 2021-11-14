@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <fstream>
+#include <random>
 
 
 
@@ -31,6 +32,7 @@ void GameBoard(std::vector<std::vector<Board>>board);
 void DropPiece(int &position, std::vector<std::vector<Board>> &board);
 void animDrop(int, std::vector<std::vector<Board>>&);
 bool winChecker(std::vector<std::vector<Board>>animboardChecker);
+bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker);
 bool scorePosition(std::vector<std::vector<Board>>animboardChecker);
 void resetBoard(std::vector<std::vector<Board>> &baseBoard);
 void playerBoard();
