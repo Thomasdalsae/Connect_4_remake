@@ -279,9 +279,9 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 		}
 		
 	}
-	winChecker(animboard);
+	
 
-	if (winChecker(animboard) == true)
+	if (winChecker(animboard))
 	{
 		if (board.playersymbol == 'X') {
 
@@ -390,7 +390,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 	{
 		for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
 		{
-			if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
+			if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker[0].size())
 			{
 			    //if * skip the whole shaity
 				if (animboardChecker[rows][columns].tileSymbol == '*')
@@ -401,7 +401,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 2].tileSymbol &&
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 3].tileSymbol)
 				{
-					std::cout << "you won mf!!!" << std::endl;
+					std::cout << "side to side" << std::endl;
 					return true;
 					
 				}
@@ -450,7 +450,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 								animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns + 3].tileSymbol)
 					
 							 {
-								std::cout << "upppppppppppppppppppp" << std::endl;
+								std::cout << " diagonally to the right" << std::endl;
 								return true;
 							}
 						}
@@ -476,7 +476,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 									animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 3][columns - 3].tileSymbol)
 
 								{
-									std::cout << "sideways" << std::endl;
+									std::cout << "diagonally down to the right " << std::endl;
 									return true;
 								}
 							}
@@ -494,15 +494,12 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 	system("cls");
 	while (true)
 	{
-		
 		GameBoard(TempBoard);
 
 		if (playerTwo.name == "AI" && board.playersymbol == 'O')
 		{
 			position = 0;
-			std::cout << position << std::endl;
-			system("pause");
-
+		
 			bestPosition(position,TempBoard);
 			std::cout << position << std::endl;
 			
@@ -551,43 +548,46 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 	}
 	std::cout << position;
 }
-int bestPosition(int &position,std::vector<std::vector<Board>>animboardChecker) {
+int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) {
+		for (int columns = 0; columns < TempBoard[0].size(); columns++) {
 
-	for (int rows = 0; rows < animboardChecker.size(); rows++)
-	{
-		for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
-		{
-			if (rows > 0 || rows < animboardChecker.size() || columns > 0 || columns < animboardChecker.size())
+			for (int row = TempBoard.size() - 1; row >= 0; row--)
 			{
-				//if * skip the whole shaity
-				if (animboardChecker[rows][columns].tileSymbol == '*')
+				if (TempBoard[row][columns].tileSymbol == 'X' || TempBoard[row][columns].tileSymbol == 'O')
 				{
-					continue;
+					break;
 				}
-				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 1].tileSymbol &&
-					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 2].tileSymbol )
-					{
-						if (animboardChecker[rows][columns + 3].tileSymbol == '*')
-						{
-						
-							position = columns + 3;
+				else if (winChecker(TempBoard)) 
+				{
+							position = columns;
 							return position;
-						}
-					
-						
-
-					}
-				else
-				{
-					position = rand() % animboardChecker[0].size();
-					return position;
 				}
+				if (TempBoard[row][columns].tileSymbol == TempBoard[TempBoard.size() - 1][columns].tileSymbol)
+				{
+							std::cout << "This slot is already taken... Try somewhere else!";
+							system("pause");
+							turn--;
+							break;
+
+				}
+					row++;
+						TempBoard[row][columns].tileSymbol =  board.playersymbol;
+
+					
+
+					
+				
+			
 			}
+
 		}
-	}
-
-
+				
+				position = rand() % TempBoard[0].size();
+				return position;
+				
 }
+
+
 
 
 
