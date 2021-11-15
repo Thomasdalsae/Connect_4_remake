@@ -143,11 +143,6 @@ void renderMenu(int p)
 
 }	
 
-void setting()
-{
-}
-
-
 
 void startGame()
 {
@@ -166,7 +161,7 @@ void startGame()
 void playerBoard()
 {
 	std::cout << playerOne.name << " " << playerOne.wins <<" VS " << playerTwo.wins <<" " << playerTwo.name << std::endl;
-	std::cout << turn;
+	std::cout << "turn:" << turn << std::endl;
 
 	return;
 }
@@ -174,9 +169,6 @@ void playerBoard()
 void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 {
 	system("cls");
-	std::cout << score << std::endl;
-	
-	
 	
 	//change to platyer choosing symbol
 	if (turn % 2 == 0) {
@@ -703,7 +695,7 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 
 
 				{
-					std::cout << " diagonally up right three in a row " << animboardChecker[rows][columns].tileSymbol << animboardChecker[rows + 1][columns + 1].tileSymbol << animboardChecker[rows + 2][columns + 2].tileSymbol << std::endl;
+					std::cout << " diagonally up right three in a row " <<std::endl;
 					return true;
 				}
 			}
@@ -732,7 +724,7 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 					(rows - 2 < 0 || animboardChecker[rows - 2][columns + 3].tileSymbol != '*')))
 
 				{
-					std::cout << "diagonally down right three in a row !!!!!! " << std::endl;
+					std::cout << "diagonally down right three in a row " << std::endl;
 					return true;
 				}
 			}
@@ -751,9 +743,6 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 		if (playerTwo.name == "AI" && board.playersymbol == 'O')
 		{
 			position = bestPosition(TempBoard);
-		
-			
-			std::cout << position << std::endl;
 			
 			
 			animDrop(position, TempBoard);
@@ -798,7 +787,7 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 			break;
 		}
 	}
-	std::cout << position;
+	
 }
 
 int bestPosition(std::vector<std::vector<Board>>TempBoard) 
@@ -837,15 +826,14 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 		{
 			row = 0;
 		}
-		std::cout << row << "  " << columns << std::endl;
+		
 
 
 		TempBoard[row][columns].tileSymbol = 'O';
 		
 		if (winChecker(TempBoard))
 		{
-			std::cout << "going for the win bby";
-			system("pause");
+			
 			position = columns;
 			return position;
 		}
@@ -881,7 +869,7 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 			{
 				row = 0;
 			}
-			std::cout << row <<"  " << columns << std::endl;
+			
 			
 			TempBoard[row][columns].tileSymbol = 'X';
 
@@ -908,8 +896,8 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 			
 			}
 			TempBoard[row][columns].tileSymbol = '*';
-			std::cout << position;
-			system("pause");
+			
+			
 			
 		}
 
@@ -925,8 +913,6 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 	}
 	if (!blockThreeRow && !threerow)
 	{
-		std::cout << "RAdnom time !!!";
-		system("pause");
 		std::random_device rd{};
 		std::mt19937_64 g(rd());
 		std::uniform_int_distribution<int> rng(0, TempBoard[0].size() - 1);
