@@ -25,6 +25,17 @@ private:
 
 };
 
+//overview
+int position{};
+int k{};
+int turn{};
+int count{ 0 };
+char answer;
+
+Board board;
+Player player;
+
+
 //MENUS
 void startGame();
 void menu();

@@ -4,14 +4,9 @@
 #include "position.hpp"
 
 
-int position{};
-int k{};
-int turn{};
-int count{0};
-Board board;
-Player player;
 
-char answer;
+
+
 
 
 int main() {
@@ -38,7 +33,7 @@ void menu()
 
 		switch (toupper(b))
 		{
-			//Player goes left
+			//goes up on the menu
 		case 'W':
 			p--;
 			if (p < 0 )
@@ -46,7 +41,7 @@ void menu()
 				p = 2;
 			}
 			break;
-			//Player goes right
+			//goes down on the menu
 		case 'S':
 			p++;
 			if (p >= 3)
@@ -146,7 +141,7 @@ void renderMenu(int p)
 
 void startGame()
 {
-
+	//makes the game ready to run the first time
 	turn = 0;
 	position = 0;
 
@@ -160,6 +155,7 @@ void startGame()
 
 void playerBoard()
 {
+	//this is just to have a scoreboard for the players.
 	std::cout << playerOne.name << " " << playerOne.wins <<" VS " << playerTwo.wins <<" " << playerTwo.name << std::endl;
 	std::cout << "turn:" << turn << std::endl;
 
@@ -168,6 +164,7 @@ void playerBoard()
 
 void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 {
+	//prints out the game updated game board + arrows to indicate which position you are going to drop the piece
 	system("cls");
 	
 	//change to platyer choosing symbol
@@ -238,6 +235,7 @@ void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 
 void restart(int g)
 {
+	//this is the arrows for the restart menu.
 	system("cls");
 	for (int rows = 0; rows < 2; rows++)
 	{
@@ -257,7 +255,7 @@ void restart(int g)
 }
 void animDrop(int, std::vector<std::vector<Board>>& animboard)
 {
-
+ //takes inn a position from either player or "AI" to place and animate the correct piece.
 
 	for (int row = animboard.size() - 1; row >= 0; row--)
 	{
@@ -304,10 +302,11 @@ void animDrop(int, std::vector<std::vector<Board>>& animboard)
 		}
 
 	}
+	//Checks if all the spots on the board is taken
 	if (drawChecker(animboard)) {
 
 		std::cout << "Looks like the game ended in a draw" << std::endl;
-		std::cout << "Do you want to play again ? : Y/N" << std::endl;
+		
 
 		while (true)
 		{
@@ -358,7 +357,7 @@ void animDrop(int, std::vector<std::vector<Board>>& animboard)
 
 
 	}
-
+	//checks if the current piece made a game winning move.
 	if (winChecker(animboard))
 	{
 
@@ -378,7 +377,7 @@ void animDrop(int, std::vector<std::vector<Board>>& animboard)
 			system("pause");
 		}
 
-
+		//Menu to where you can select either to play again or exit the game.
 		while (true)
 		{
 			restart(g);
@@ -437,7 +436,7 @@ void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 	
 	system("cls");
 	
-	
+	//this resets the whole gameboard.
 	
 	for (int columns = 0; columns < baseBoard[0].size(); columns++)
 	{
@@ -507,6 +506,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 				{
 					continue;
 				}
+				
 				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 1].tileSymbol &&
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 2].tileSymbol &&
 					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 3].tileSymbol &&
@@ -543,7 +543,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 		}
 	}
 				
-			//checking win condition for diagonally to the right
+			//checking win condition for diagonally up to the right
 	for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
 	{
 		for (int rows = 0; rows < animboardChecker.size() - 3; rows++)
@@ -568,7 +568,7 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 			}
 		}
      }
-						//checking win condtiion for diagonally down to the right 
+						//checking win condtiion for diagonally down to the right
 	for (int columns = 0; columns < animboardChecker[0].size() - 3; columns++)
 
 	{
@@ -739,17 +739,18 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 	while (true)
 	{
 		GameBoard(TempBoard);
-
+		//this checks if the current player is "AI" and the playersymbol is O
+		//it checks if there are an open slot that wil give a win or three in a row, or block for 4 in a row or block three.
 		if (playerTwo.name == "AI" && board.playersymbol == 'O')
 		{
 			position = bestPosition(TempBoard);
 			
-			
+			//it return the correct column to drop the piece.
 			animDrop(position, TempBoard);
 			turn++;
 			
 		}
-
+		//this is where you select which column to drop a piece.
 		char b = _getch();
 
 		switch (toupper(b))
@@ -801,12 +802,12 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 
 		int row{};
 		bool fullCol = false;
-
+		//it drops a piece on each position and checks which gives the best results. it's basically a one depth minimax..
 		for (row = TempBoard.size() - 1; row >= 0; row--)
 		{
 
 			if (TempBoard[row][columns].tileSymbol == 'X' || TempBoard[row][columns].tileSymbol == 'O')
-			{
+			{//checks if the column is full or not
 				if (row == TempBoard.size() - 1)
 				{
 					fullCol = true;
@@ -830,7 +831,7 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 
 
 		TempBoard[row][columns].tileSymbol = 'O';
-		
+		//first check is to see if there are an open 4 in a row spot. to make the "AI" aim to win instead of blocking i needed to make another loop.
 		if (winChecker(TempBoard))
 		{
 			
@@ -872,13 +873,13 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 			
 			
 			TempBoard[row][columns].tileSymbol = 'X';
-
+			//checks if there is a block 4 against the player open.
 			if (winChecker(TempBoard))
 			{
 				position = columns;
 				return position;
 			}
-		
+			//checks if there is a block 3 against the player open.
 			if (winCheckerExtra(TempBoard))
 			{
 				position = columns;
@@ -886,7 +887,7 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 				
 			}
 			TempBoard[row][columns].tileSymbol = 'O';
-
+			//checks if there is a  3 in a row option open.
 			if (!blockThreeRow && winCheckerExtra(TempBoard))
 			{
 
@@ -901,7 +902,7 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 			
 		}
 
-	
+	//checks the whole board first, if i do not have this counter measure it will instantly place on first open 3 block or 3 spot.
 	if (blockThreeRow && !threerow)
 	{
 		return position;
@@ -911,6 +912,7 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 	{
 		return position;
 	}
+	//if there are no blocks or good option for the ai, it will take a random position depening on the board size.
 	if (!blockThreeRow && !threerow)
 	{
 		std::random_device rd{};
@@ -925,7 +927,7 @@ int bestPosition(std::vector<std::vector<Board>>TempBoard)
 
 void loadPlayer()
 {
-
+	//this will load all players that are inn the "database" it save everything inn a vector. this gives me the option to update the players score later.
 	std::vector<Player> PlayerData{};
 
 	std::string p;
@@ -974,7 +976,7 @@ void loadPlayer()
 }
 
 void manageData(std::vector<Player>& PlayerData)
-{
+{// this updates the score of the returning player.
 	for (size_t i = 0; i < PlayerData.size(); i++)
 	{
 
