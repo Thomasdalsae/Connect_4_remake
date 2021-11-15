@@ -34,8 +34,8 @@ void restart(int g);
 //MODES
 void singlePlayer();
 void multiPlayer();
-int p;
 int g;
+int p;
 //BOARDS
 int score{};
 void playerBoard();
@@ -49,7 +49,7 @@ bool drawChecker(std::vector<std::vector<Board>>animboardChecker);
 //FOR AI
 bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker);
 //AI
-int bestPosition(int& position, std::vector<std::vector<Board>>animboardChecker);
+int bestPosition(std::vector<std::vector<Board>>animboardChecker);
 
 
 //login
@@ -63,4 +63,5 @@ void manageData(std::vector<Player>& PlayerData);
 //VECTORS
 std::vector<std::string>loginnUserName;
 std::vector<std::string>loginPassword;
-std::vector<std::string> entryMenu{ "Single player","Multiplayer","Create account"," Exit" };
+std::vector<std::string> entryMenu{ "Single player","Multiplayer"," Exit" };
+std::vector<std::string> restartMenu{ "Try again","Exit"};

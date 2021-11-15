@@ -29,6 +29,7 @@ int main() {
 void menu()
 {
 	//simple menu to select which game mode you want to play.
+	
 	while (true)
 	{
 		renderMenu(p);
@@ -68,7 +69,7 @@ void menu()
 			}
 			if (p == 2)
 			{
-				
+				loadPlayer();
 				return;
 			}
 			break;
@@ -246,42 +247,42 @@ void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 void restart(int g)
 {
 	system("cls");
-	for (int rows = 0; rows < 3; rows++)
+	for (int rows = 0; rows < 2; rows++)
 	{
 
 		if (g == rows) {
 			std::cout << "-> :";
-			std::cout << entryMenu[rows];
+			std::cout << restartMenu[rows];
 		}
 		else
 		{
 			std::cout << "   :";
-			std::cout << entryMenu[rows];
+			std::cout << restartMenu[rows];
 		}
 		std::cout << std::endl;
 	}
 
 }
-void animDrop(int, std::vector<std::vector<Board>>&animboard)
+void animDrop(int, std::vector<std::vector<Board>>& animboard)
 {
-	
-	
+
+
 	for (int row = animboard.size() - 1; row >= 0; row--)
 	{
-		
+
 		if (animboard[row][position].tileSymbol == 'X' || animboard[row][position].tileSymbol == 'O')
 		{
-			if (animboard[row][position].tileSymbol == animboard[animboard.size()-1][position].tileSymbol)
+			if (animboard[row][position].tileSymbol == animboard[animboard.size() - 1][position].tileSymbol)
 			{
 				std::cout << "This slot is already taken... Try somewhere else!";
 				system("pause");
 				turn--;
 				break;
-				
+
 			}
 			row++;
 			animboard[row][position].tileSymbol = board.playersymbol;
-			
+
 			break;
 		}
 		if (animboard[row][position].tileSymbol == '*')
@@ -307,71 +308,22 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 
 			}
 			animboard[row][position].tileSymbol = '*';
-		
+
 		}
-		
+
 	}
 	if (drawChecker(animboard)) {
 
 		std::cout << "Looks like the game ended in a draw" << std::endl;
 		std::cout << "Do you want to play again ? : Y/N" << std::endl;
 
-		std::cin >> answer;
-		if (answer > 0) {
-			std::cout << " please write Y or N ";
-			std::cin >> answer;
-		}
-
-		
-		switch (toupper(answer))
-		{
-
-		case 'Y':
-			turn = 0;
-			position = 0;
-			resetBoard(animboard);
-
-			break;
-
-		case 'N':
-
-			loadPlayer();
-			break;
-
-
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	if (winChecker(animboard))
-	{
-		
-
-		if (board.playersymbol == 'X') {
-
-			std::cout << "Congratulations " << playerOne.name << std::endl;
-			playerOne.wins++;
-			playerTwo.losses++;
-		}
-		else
-		{
-			std::cout << "Congratulations " << playerTwo.name << std::endl;
-			playerTwo.wins++;
-			playerOne.losses++;
-		}
-		
-
 		while (true)
 		{
-			
 			restart(g);
 
-			char g = _getch();
+			char b = _getch();
 
-			switch (toupper(g))
+			switch (toupper(b))
 			{
 				//Player goes left
 			case 'W':
@@ -393,59 +345,98 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 			case ' ':
 				if (g == 0)
 				{
-					
-					return;
-				}
-				if (g == 1) {
-
 					turn = 0;
 					position = 0;
 					resetBoard(animboard);
 
 					break;
-
 				}
-				if (g == 2)
-				{
+				if (g == 1) {
+
 					loadPlayer();
 					break;
-
-					return;
 				}
-				break;
+
+
 
 			default:
 				break;
 			}
 		}
 
-		switch (toupper(answer))
+
+	}
+
+	if (winChecker(animboard))
+	{
+
+
+		if (board.playersymbol == 'X') {
+
+			std::cout << "Congratulations " << playerOne.name << std::endl;
+			playerOne.wins++;
+			playerTwo.losses++;
+		}
+		else
 		{
-
-		case 'Y':
-			turn = 0;
-			position = 0;
-			resetBoard(animboard);
-			
-			break;
-
-		case 'N':
-			
-			loadPlayer();
-			break;
-
-
-			break;
-
-		default:
-			break;
+			std::cout << "Congratulations " << playerTwo.name << std::endl;
+			playerTwo.wins++;
+			playerOne.losses++;
 		}
 
 
+		while (true)
+		{
+			restart(g);
+
+			char b = _getch();
+
+			switch (toupper(b))
+			{
+				//Player goes left
+			case 'W':
+				g--;
+				if (g < 0)
+				{
+					g = 2;
+				}
+				break;
+				//Player goes right
+			case 'S':
+				g++;
+				if (g >= 3)
+				{
+					g = 0;
+				}
+				break;
+
+			case ' ':
+				if (g == 0)
+				{
+					turn = 0;
+					position = 0;
+					resetBoard(animboard);
+
+					return;
+				}
+				if (g == 1) {
+
+					loadPlayer();
+					break;
+				}
+
+
+
+			default:
+				break;
+			}
+		}
+
 	}
-	
-	
-  }
+
+
+}
+  
 
 void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 {
@@ -641,8 +632,15 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 				{
 					continue;
 				}
+
 				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 1].tileSymbol &&
-					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 2].tileSymbol)
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows][columns + 2].tileSymbol &&
+					((columns + 3 <= animboardChecker[0].size() - 1 && animboardChecker[rows][columns + 3].tileSymbol == '*' && 
+					(rows - 1 < 0 || animboardChecker[rows - 1][columns + 3].tileSymbol != '*')) ||  (columns - 1 >= 0 && animboardChecker[rows][columns - 1].tileSymbol == '*' &&
+					(rows - 1 < 0 || animboardChecker[rows - 1][columns - 1].tileSymbol != '*'))))
+
+				
+
 				{
 					std::cout << "Sideways 3 in a row " << std::endl;
 					return true;
@@ -666,7 +664,8 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 						continue;
 					}
 					if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns].tileSymbol &&
-						animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol)
+						animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns].tileSymbol &&
+						((rows + 3 <= animboardChecker.size() - 1   && animboardChecker[rows + 3][columns].tileSymbol == '*')))
 					{
 						std::cout << "uppppp three in a row" << std::endl;
 						return true;
@@ -689,7 +688,12 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 					continue;
 				}
 				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 1][columns + 1].tileSymbol &&
-					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns + 2].tileSymbol)
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows + 2][columns + 2].tileSymbol && 
+					((rows - 1 >= 0 && columns - 1 >= 0 ) && animboardChecker[rows - 1][columns - 1].tileSymbol == '*' && 
+					(rows - 2 < 0 || animboardChecker[rows - 2][columns - 1].tileSymbol != '*')) || (rows + 3 <= animboardChecker.size() - 1 &&
+					columns + 3 <= animboardChecker[0].size() - 1 && animboardChecker[rows + 3][columns + 3].tileSymbol == '*' &&
+					(animboardChecker[rows + 2 ][columns + 3].tileSymbol != '*' )))
+
 
 				{
 					std::cout << " diagonally up to the right three in a row" << std::endl;
@@ -714,7 +718,10 @@ bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
 					continue;
 				}
 				if (animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 1][columns + 1].tileSymbol &&
-					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 2][columns + 2].tileSymbol)
+					animboardChecker[rows][columns].tileSymbol == animboardChecker[rows - 2][columns + 2].tileSymbol &&
+					(columns - 1 >= 0 && animboardChecker[rows][columns - 1].tileSymbol != '*' && animboardChecker[rows + 1][columns - 1].tileSymbol == '*') ||
+					(rows - 3 >= 0 && columns + 3 <= animboardChecker[0].size() - 1 && animboardChecker[rows - 3][columns + 3].tileSymbol == '*' &&
+					(rows - 2 < 0 || animboardChecker[rows - 2][columns + 3].tileSymbol != '*')))
 
 				{
 					std::cout << "diagonally down to the right four in a row " << std::endl;
@@ -735,9 +742,9 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 
 		if (playerTwo.name == "AI" && board.playersymbol == 'O')
 		{
-			position = 0;
+			position = bestPosition(TempBoard);
 		
-			bestPosition(position,TempBoard);
+			
 			std::cout << position << std::endl;
 			
 			
@@ -786,12 +793,14 @@ void DropPiece(int &position, std::vector<std::vector<Board>> &TempBoard)
 	std::cout << position;
 }
 
-int bestPosition(int &position,std::vector<std::vector<Board>>TempBoard) 
+int bestPosition(std::vector<std::vector<Board>>TempBoard) 
 {
-		bool threerow = false;
-		bool blockThreeRow = false;
+	bool threerow = false;
+	bool blockThreeRow = false;
+	int position = 0;
 		for (int columns = 0; columns < TempBoard[0].size(); columns++) 
 		{
+			
 				int row{};
 				bool fullCol = false;
 
