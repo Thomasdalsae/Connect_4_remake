@@ -30,10 +30,12 @@ void startGame();
 void menu();
 void renderMenu(int p);
 void setting();
+void restart(int g);
 //MODES
 void singlePlayer();
 void multiPlayer();
 int p;
+int g;
 //BOARDS
 int score{};
 void playerBoard();
@@ -43,6 +45,7 @@ void animDrop(int, std::vector<std::vector<Board>>&);
 void resetBoard(std::vector<std::vector<Board>>& baseBoard);
 //WINCHECKERS
 bool winChecker(std::vector<std::vector<Board>>animboardChecker);
+bool drawChecker(std::vector<std::vector<Board>>animboardChecker);
 //FOR AI
 bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker);
 //AI

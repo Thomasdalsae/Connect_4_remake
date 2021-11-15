@@ -28,7 +28,7 @@ int main() {
 
 void menu()
 {
-	
+	//simple menu to select which game mode you want to play.
 	while (true)
 	{
 		renderMenu(p);
@@ -81,7 +81,7 @@ void menu()
 
 void singlePlayer() {
 
-
+	//Only the playerOne needs to input the name, the playerTwo will automatically become the AI.
 
 	std::cout << "Enter playerone name: ";
 	std::cin >> playerOne.name;
@@ -101,7 +101,7 @@ void singlePlayer() {
 
 void multiPlayer() {
 
-	
+	//playerOne and playerTwo needs to input their names.
 	
 	std::cout << "Enter playerone name: ";
 	std::cin >> playerOne.name;
@@ -121,6 +121,7 @@ void multiPlayer() {
 
 void renderMenu(int p)
 {
+	//This adds an visual arrow for the main menu.
 	system("cls");
 	for (int rows = 0; rows < 3; rows++)
 	{
@@ -145,8 +146,11 @@ void setting()
 {
 }
 
+
+
 void startGame()
 {
+
 	turn = 0;
 	position = 0;
 
@@ -161,6 +165,7 @@ void startGame()
 void playerBoard()
 {
 	std::cout << playerOne.name << " " << playerOne.wins <<" VS " << playerTwo.wins <<" " << playerTwo.name << std::endl;
+	std::cout << turn;
 
 	return;
 }
@@ -238,6 +243,25 @@ void GameBoard(std::vector<std::vector<Board>>Boardlayout)
 
 }
 
+void restart(int g)
+{
+	system("cls");
+	for (int rows = 0; rows < 3; rows++)
+	{
+
+		if (g == rows) {
+			std::cout << "-> :";
+			std::cout << entryMenu[rows];
+		}
+		else
+		{
+			std::cout << "   :";
+			std::cout << entryMenu[rows];
+		}
+		std::cout << std::endl;
+	}
+
+}
 void animDrop(int, std::vector<std::vector<Board>>&animboard)
 {
 	
@@ -287,10 +311,45 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 		}
 		
 	}
-	
+	if (drawChecker(animboard)) {
+
+		std::cout << "Looks like the game ended in a draw" << std::endl;
+		std::cout << "Do you want to play again ? : Y/N" << std::endl;
+
+		std::cin >> answer;
+		if (answer > 0) {
+			std::cout << " please write Y or N ";
+			std::cin >> answer;
+		}
+
+		
+		switch (toupper(answer))
+		{
+
+		case 'Y':
+			turn = 0;
+			position = 0;
+			resetBoard(animboard);
+
+			break;
+
+		case 'N':
+
+			loadPlayer();
+			break;
+
+
+			break;
+
+		default:
+			break;
+		}
+	}
 
 	if (winChecker(animboard))
 	{
+		
+
 		if (board.playersymbol == 'X') {
 
 			std::cout << "Congratulations " << playerOne.name << std::endl;
@@ -303,12 +362,62 @@ void animDrop(int, std::vector<std::vector<Board>>&animboard)
 			playerTwo.wins++;
 			playerOne.losses++;
 		}
-		std::cout << "Looks like the game is over" << std::endl;
-		std::cout << "Do you want to play again ? : Y/N" << std::endl;
-		std::cin >> answer;
+		
 
-		
-		
+		while (true)
+		{
+			
+			restart(g);
+
+			char g = _getch();
+
+			switch (toupper(g))
+			{
+				//Player goes left
+			case 'W':
+				g--;
+				if (g < 0)
+				{
+					g = 2;
+				}
+				break;
+				//Player goes right
+			case 'S':
+				g++;
+				if (g >= 3)
+				{
+					g = 0;
+				}
+				break;
+
+			case ' ':
+				if (g == 0)
+				{
+					
+					return;
+				}
+				if (g == 1) {
+
+					turn = 0;
+					position = 0;
+					resetBoard(animboard);
+
+					break;
+
+				}
+				if (g == 2)
+				{
+					loadPlayer();
+					break;
+
+					return;
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
 
 		switch (toupper(answer))
 		{
@@ -342,8 +451,9 @@ void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 {
 	
 	system("cls");
-
-	turn = 0;
+	
+	
+	
 	for (int columns = 0; columns < baseBoard[0].size(); columns++)
 	{
 		if (position == columns) {
@@ -392,6 +502,7 @@ void resetBoard(std::vector<std::vector<Board>> &baseBoard)
 		std::cout << std::endl;
 	}
 
+	turn = -1;
 
 	
 }
@@ -496,11 +607,24 @@ bool winChecker(std::vector<std::vector<Board>>animboardChecker)
 			}
 		}
 	}
-
+	
 
 	return false;
 
 
+}
+
+bool drawChecker(std::vector<std::vector<Board>>animboardChecker)
+{
+	
+	for (int columns = 0; columns < animboardChecker[0].size(); columns++) {
+		if (turn == 41)
+		{
+			return true;
+		}
+		
+	}
+	return false;
 }
 
 bool winCheckerExtra(std::vector<std::vector<Board>>animboardChecker)
