@@ -32,7 +32,7 @@ void menu()
 		char b = _getch();
 
 		switch (toupper(b))
-		{
+		{ 
 			//goes up on the menu
 		case 'W':
 			p--;
